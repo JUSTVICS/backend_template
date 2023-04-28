@@ -1,16 +1,23 @@
 const express = require('express');
 const router = express.Router();
-const user = require('../models/user.model');
+const User = require('../models/user.model');
 
 router.post("/User", async (req, res) => {
     try {
-        const newUSer = (
-        req.body.username,
-        req.body.email,
-        req.body.firstname);
+        const newUSer = {
+        username: req.body.username,
+        firstname:  req.body.firstname,
+       email: req.body.email,
+    };
+    const user = new User(newUSer);
+    user.save();
+    return res.status(201).json({
+        success: true,
+        user
+    })
 
     } catch (error) {
-        throw new Error(`Error creating a user ${error.message}`)
+        throw new Error(`Error creating a user ${error.message}`);
     }
 });
 
